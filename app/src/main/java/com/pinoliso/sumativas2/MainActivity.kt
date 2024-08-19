@@ -42,80 +42,41 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.TextFieldDefaults
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+
+val users = mutableListOf<User>()
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            App()
+            users.add(User(name = "Gloria Alvarez", email = "test1@test.com", password = "1234"))
+            users.add(User(name = "Gonzalo Huerta", email = "test2@test.com", password = "1234"))
+            users.add(User(name = "Jimena Rincón", email = "test3@test.com", password = "1234"))
+            users.add(User(name = "Rodrigo Tupp", email = "test4@test.com", password = "1234"))
+            users.add(User(name = "Carlos Goma", email = "test5@test.com", password = "1234"))
+            MyApp()
         }
     }
 }
 
-@Preview
 @Composable
-fun App() {
-
-    var email by rememberSaveable { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordVisible by remember { mutableStateOf(false) }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF48A1AF))
-            .padding(30.dp, 20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(painter = painterResource(id = R.drawable.logo), contentDescription = "PockerMania")
-
-        TextField(
-            label = { Text("Email") },
-            singleLine = true,
-            shape = RoundedCornerShape(8.dp),
-            value = email,
-            onValueChange = { email = it },
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true,
-            shape = RoundedCornerShape(8.dp),
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") },
-            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            trailingIcon = {
-                val image = if (passwordVisible)
-                    Icons.Outlined.Visibility
-                else Icons.Filled.VisibilityOff
-
-                IconButton(onClick = {
-                    passwordVisible = !passwordVisible
-                }) {
-                    Icon(imageVector = image, contentDescription = null)
-                }
-            }
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        Button(onClick = {
-
-        },colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF333333),
-            contentColor = Color(0xFFECECEC)
-        ),modifier = Modifier.height(55.dp),
-            shape = RoundedCornerShape(8.dp)) {
-            Text(
-                textAlign = TextAlign.Center,
-                text = "Login",
-                modifier = Modifier
-                    .fillMaxWidth(),
-                style = TextStyle(fontSize = 25.sp)
-            )
-        }
+fun MyApp() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "login") {
+        composable("login") { LoginScreen(navController = navController) }
+        composable("register") { RegisterScreen(navController = navController) }
+        composable("sesion") { SessionScreen(navController = navController) }
+        composable("recover") { RecoveryScreen(navController = navController) }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    MyApp()
 }
