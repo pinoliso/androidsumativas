@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import android.widget.Toast
+import androidx.compose.foundation.layout.Row
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
@@ -92,7 +93,7 @@ fun LoginScreen(navController: NavController) {
             // navController.navigate("register")
             val user = users.find { it.email == email && it.password == password }
             if (user != null) {
-                navController.navigate("register")
+                navController.navigate("session")
             } else {
                 errorMessage = "Credenciales incorrectas"
                 Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
@@ -110,6 +111,29 @@ fun LoginScreen(navController: NavController) {
                     .fillMaxWidth(),
                 style = TextStyle(fontSize = 25.sp)
             )
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            TextButton(onClick = {
+                navController.navigate("recovery")
+            }) {
+                Text(
+                    text = "Recuperar Clave",
+                    color = Color(0xFFECECEC)
+                )
+            }
+
+            TextButton(onClick = {
+                navController.navigate("register")
+            }) {
+                Text(
+                    text = "Registrarse",
+                    color = Color(0xFFECECEC)
+                )
+            }
         }
     }
 }
