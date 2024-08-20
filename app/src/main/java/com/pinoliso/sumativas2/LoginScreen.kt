@@ -38,7 +38,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import android.widget.Toast
 import androidx.compose.foundation.layout.Row
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -56,8 +59,21 @@ fun LoginScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Image(painter = painterResource(id = R.drawable.logo), contentDescription = "PockerMania")
+        Image(
+            painter = painterResource(id = R.drawable.manos),
+            contentDescription = "PockerMania",
+            modifier = Modifier.scale(5.0f).height(120.dp)
+        )
 
+        Text(
+            text = "Lets Talk",
+            style = TextStyle(
+                fontSize = 40.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFFECECEC)
+            )
+        )
+        Spacer(modifier = Modifier.height(10.dp))
         TextField(
             label = { Text("Email") },
             singleLine = true,
