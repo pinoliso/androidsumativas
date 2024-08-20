@@ -59,7 +59,7 @@ fun SessionScreen(navController: NavController) {
     var errorMessage by remember { mutableStateOf("") }
     val context = LocalContext.current
 
-    val cardGames = listOf("Poker", "Blackjack", "Solitaire")
+    val cardGames = listOf("Señas", "Audio", "Mixto")
 
     Scaffold(
         topBar = {
