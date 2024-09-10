@@ -105,15 +105,29 @@ fun LoginScreen(navController: NavController) {
             }
         )
         Spacer(modifier = Modifier.height(10.dp))
-        Button(onClick = {
-            // navController.navigate("register")
+        Button(onClick = setOnClickListener@{
+
+            if(email.isBlank()) {
+                Toast.makeText(context, "Ingrese un Email", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            if(password.isBlank()) {
+                Toast.makeText(context, "Ingrese un Password", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(context, "Ingrese un Email válido", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             val user = users.find { it.email == email && it.password == password }
             if (user != null) {
+                loggedUser = user
                 navController.navigate("session")
             } else {
-                errorMessage = "Credenciales incorrectas"
-                Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Credenciales incorrectas", Toast.LENGTH_LONG).show()
             }
+
         },colors = ButtonDefaults.buttonColors(
             containerColor = Color(0xFF333333),
             contentColor = Color(0xFFECECEC)

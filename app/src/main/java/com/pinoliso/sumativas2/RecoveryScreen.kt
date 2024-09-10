@@ -96,15 +96,24 @@ fun RecoveryScreen(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(10.dp))
             Button(
-                onClick = {
-                    // navController.navigate("register")
-                    val user = users.find { it.email == email }
-                    if (user != null) {
-                        errorMessage = "Se ha enviado un correo de recuperación"
-                    } else {
-                        errorMessage = "No se registra el correo ingresado"
+                onClick = setOnClickListener@{
+
+                    if(email.isBlank()) {
+                        Toast.makeText(context, "Ingrese un Email", Toast.LENGTH_LONG).show()
+                        return@setOnClickListener
                     }
-                    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+                    if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        Toast.makeText(context, "Ingrese un Email válido", Toast.LENGTH_LONG).show()
+                        return@setOnClickListener
+                    }
+                    val user = users.find { it.email.equals(email) }
+                    if (user != null) {
+                        Toast.makeText(context, "El correo no está registrado", Toast.LENGTH_LONG).show()
+                        return@setOnClickListener
+                    }
+
+                    Toast.makeText(context, "Se ha enviado un correo con la recuperación", Toast.LENGTH_LONG).show()
+
                 }, colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF333333),
                     contentColor = Color(0xFFECECEC)

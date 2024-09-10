@@ -44,10 +44,10 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun RegisterScreen(navController: NavController) {
 
+    var name by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
-    var name by rememberSaveable { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
     val context = LocalContext.current
 
@@ -93,8 +93,8 @@ fun RegisterScreen(navController: NavController) {
                 label = { Text("Nombre") },
                 singleLine = true,
                 shape = RoundedCornerShape(8.dp),
-                value = email,
-                onValueChange = { email = it },
+                value = name,
+                onValueChange = { name = it },
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(10.dp))
@@ -121,15 +121,45 @@ fun RegisterScreen(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(10.dp))
             Button(
-                onClick = {
+                onClick = setOnClickListener@{
+
+                    val invalidChars = "[<>&\"';]".toRegex()
+
+                    if (invalidChars.containsMatchIn(name) ||
+                        invalidChars.containsMatchIn(email) ||
+                        invalidChars.containsMatchIn(password)) {
+                        Toast.makeText(context, "Caractéres no válidos.", Toast.LENGTH_LONG).show()
+                        return@setOnClickListener
+                    }
+                    if(email.isBlank()) {
+                        Toast.makeText(context, "Ingrese un Email", Toast.LENGTH_LONG).show()
+                        return@setOnClickListener
+                    }
+                    if(name.isBlank()) {
+                        Toast.makeText(context, "Ingrese un Nombre", Toast.LENGTH_LONG).show()
+                        return@setOnClickListener
+                    }
+                    if(password.isBlank()) {
+                        Toast.makeText(context, "Ingrese un Password", Toast.LENGTH_LONG).show()
+                        return@setOnClickListener
+                    }
+
+                    if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        Toast.makeText(context, "Ingrese un Email válido", Toast.LENGTH_LONG).show()
+                        return@setOnClickListener
+                    }
+
                     // navController.navigate("register")
-                    val user = users.find { it.email == email }
+                    val user = users.find { it.email.equals(email) }
                     if (user != null) {
                         errorMessage = "El correo ingresado se encuentra en uso"
-                    } else {
-                        errorMessage = "Se ha registrado correctamente"
+                        return@setOnClickListener
                     }
-                    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+
+                    users.add(User(name = name, email = email, password = password))
+
+                    Toast.makeText(context, "Usuario Registrado", Toast.LENGTH_LONG).show()
+
                 }, colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF333333),
                     contentColor = Color(0xFFECECEC)

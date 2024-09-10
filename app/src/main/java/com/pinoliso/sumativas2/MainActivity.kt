@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 val users = mutableListOf<User>()
+var loggedUser = User(name = "", email = "", password = "")
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +38,8 @@ fun MyApp() {
         composable("register") { RegisterScreen(navController = navController) }
         composable("session") { SessionScreen(navController = navController) }
         composable("recovery") { RecoveryScreen(navController = navController) }
+        composable("signs") { SignsScreen(navController = navController) }
+        composable("audio") { AudioScreen(navController = navController) }
     }
 }
 
