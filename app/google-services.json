@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "229012114315",
+    "project_id": "duoc-e01b8",
+    "storage_bucket": "duoc-e01b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:229012114315:android:6a895e3bc1e47c09a2bd8e",
+        "android_client_info": {
+          "package_name": "com.pinoliso.sumativas2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArDlbR0Pg7Ofjht8sZ1sye1s1RB4SlA9k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

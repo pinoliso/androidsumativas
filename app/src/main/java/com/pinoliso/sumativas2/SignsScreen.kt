@@ -22,21 +22,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Accessibility
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.EmojiPeople
 import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Handshake
 import androidx.compose.material.icons.filled.Hearing
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.PanTool
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.ThumbsUpDown
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -51,7 +43,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
 data class IconItem(val text: String, val icon: ImageVector)
@@ -93,7 +84,7 @@ fun SignsScreen(navController: NavController) {
             )
         },
     ) { innerPadding ->
-
+        innerPadding.calculateTopPadding()
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -104,7 +95,7 @@ fun SignsScreen(navController: NavController) {
         ) {
 
             LazyVerticalGrid(
-                columns = GridCells.Fixed(3), // Define 3 columnas
+                columns = GridCells.Fixed(3),
                 modifier = Modifier
                     .padding(16.dp)
                     .fillMaxSize(),

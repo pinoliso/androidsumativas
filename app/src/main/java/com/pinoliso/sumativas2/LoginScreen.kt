@@ -42,6 +42,8 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -50,6 +52,7 @@ fun LoginScreen(navController: NavController) {
     var passwordVisible by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
     val context = LocalContext.current
+    val userDao = UserDao()
 
     Column(
         modifier = Modifier
@@ -107,6 +110,26 @@ fun LoginScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(10.dp))
         Button(onClick = setOnClickListener@{
 
+            val db = Firebase.firestore
+
+            val user22 = hashMapOf(
+                "nombre" to "Juan",
+                "apellido" to "Pérez",
+                "edad" to 30
+            )
+
+            db.collection("usuarios")
+                .whereEqualTo("email", email)
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        println("${document.id} => ${document.data}")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    println("Error al obtener documentos: $exception")
+                }
+
             if(email.isBlank()) {
                 Toast.makeText(context, "Ingrese un Email", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
@@ -120,12 +143,15 @@ fun LoginScreen(navController: NavController) {
                 return@setOnClickListener
             }
 
-            val user = users.find { it.email == email && it.password == password }
-            if (user != null) {
-                loggedUser = user
-                navController.navigate("session")
-            } else {
-                Toast.makeText(context, "Credenciales incorrectas", Toast.LENGTH_LONG).show()
+            userDao.validateLogin(email, password) { success, user, message ->
+                if (success) {
+                    if (user != null) {
+                        loggedUser = user
+                    }
+                    navController.navigate("session")
+                } else {
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                }
             }
 
         },colors = ButtonDefaults.buttonColors(

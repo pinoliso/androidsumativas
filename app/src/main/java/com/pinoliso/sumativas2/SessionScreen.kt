@@ -104,7 +104,7 @@ fun SessionScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFF48A1AF))
-                .padding(20.dp, 85.dp),
+                .padding(20.dp, 105.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
