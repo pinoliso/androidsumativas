@@ -50,6 +50,7 @@ fun RegisterScreen(navController: NavController) {
     var passwordVisible by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
     val context = LocalContext.current
+    val userDao = UserDao()
 
     Scaffold(
         topBar = {
@@ -149,16 +150,13 @@ fun RegisterScreen(navController: NavController) {
                         return@setOnClickListener
                     }
 
-                    // navController.navigate("register")
-                    val user = users.find { it.email.equals(email) }
-                    if (user != null) {
-                        errorMessage = "El correo ingresado se encuentra en uso"
-                        return@setOnClickListener
+                    userDao.register(email, password, name) { success, message ->
+                        if (success) {
+                            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                        }
                     }
-
-                    users.add(User(name = name, email = email, password = password))
-
-                    Toast.makeText(context, "Usuario Registrado", Toast.LENGTH_LONG).show()
 
                 }, colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF333333),

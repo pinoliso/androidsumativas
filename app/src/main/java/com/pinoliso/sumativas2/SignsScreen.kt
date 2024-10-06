@@ -1,6 +1,8 @@
 package com.pinoliso.sumativas2
 
+import android.speech.tts.TextToSpeech
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -49,8 +51,7 @@ data class IconItem(val text: String, val icon: ImageVector)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignsScreen(navController: NavController) {
-
+fun SignsScreen(navController: NavController, textToSpeech: TextToSpeech) {
 
     val items = listOf(
         IconItem("Pararse", Icons.Default.Accessibility),
@@ -102,7 +103,7 @@ fun SignsScreen(navController: NavController) {
                 contentPadding = PaddingValues(8.dp)
             ) {
                 items(items) { item ->
-                    IconCard(item)
+                    IconCard(item, textToSpeech)
                 }
             }
         }
@@ -113,15 +114,19 @@ fun SignsScreen(navController: NavController) {
 @Preview
 @Composable
 fun SignsScreenPreview() {
-    SignsScreen(navController = rememberNavController())
+    val textToSpeech = null
+    textToSpeech?.let { SignsScreen(navController = rememberNavController(), it) }
 }
 
 @Composable
-fun IconCard(item: IconItem) {
+fun IconCard(item: IconItem, textToSpeech: TextToSpeech) {
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                textToSpeech.speak(item.text, TextToSpeech.QUEUE_FLUSH, null, null)
+            },
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {

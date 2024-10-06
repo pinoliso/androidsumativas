@@ -56,6 +56,7 @@ fun RecoveryScreen(navController: NavController) {
     var email by rememberSaveable { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
     val context = LocalContext.current
+    val userDao = UserDao()
 
     Scaffold(
         topBar = {
@@ -106,13 +107,14 @@ fun RecoveryScreen(navController: NavController) {
                         Toast.makeText(context, "Ingrese un Email válido", Toast.LENGTH_LONG).show()
                         return@setOnClickListener
                     }
-                    val user = users.find { it.email.equals(email) }
-                    if (user != null) {
-                        Toast.makeText(context, "El correo no está registrado", Toast.LENGTH_LONG).show()
-                        return@setOnClickListener
-                    }
 
-                    Toast.makeText(context, "Se ha enviado un correo con la recuperación", Toast.LENGTH_LONG).show()
+                    userDao.validateRecovery(email) { success, message ->
+                        if (success) {
+                            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                        }
+                    }
 
                 }, colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF333333),

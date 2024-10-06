@@ -112,24 +112,6 @@ fun LoginScreen(navController: NavController) {
 
             val db = Firebase.firestore
 
-            val user22 = hashMapOf(
-                "nombre" to "Juan",
-                "apellido" to "Pérez",
-                "edad" to 30
-            )
-
-            db.collection("usuarios")
-                .whereEqualTo("email", email)
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        println("${document.id} => ${document.data}")
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    println("Error al obtener documentos: $exception")
-                }
-
             if(email.isBlank()) {
                 Toast.makeText(context, "Ingrese un Email", Toast.LENGTH_LONG).show()
                 return@setOnClickListener

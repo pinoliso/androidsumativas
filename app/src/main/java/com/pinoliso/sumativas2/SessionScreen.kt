@@ -75,7 +75,7 @@ fun SessionScreen(navController: NavController) {
 
     val opciones = listOf<Opcion>(
         Opcion(name = "Señas", route = "signs"),
-        Opcion(name = "Audio", route = "audio")
+        Opcion(name = "Audios", route = "audio")
     )
 
     Scaffold(
@@ -83,7 +83,7 @@ fun SessionScreen(navController: NavController) {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        "Selección de Juegos",
+                        "Selección de Servicio",
                     )
                 },
                 navigationIcon = {
